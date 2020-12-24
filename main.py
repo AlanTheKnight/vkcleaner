@@ -18,15 +18,18 @@ class ApiHelper(object):
                 self.LOGIN = data['login']
                 self.PASSWORD = data['password']
         else:
-            login = LoginWindow(helper=self)
-            if not login.exec_():
-                sys.exit()
+            self.login()
         vk_session = vk_api.VkApi(
             self.LOGIN, self.PASSWORD,
             app_id=2685278, auth_handler=self.two_auth)
         vk_session.auth()
         self.vk = vk_session.get_api()
         self.save()
+
+    def login(self):
+        login = LoginWindow(helper=self)
+        if not login.exec_():
+            sys.exit()
 
     def save(self):
         with open(".creds.json", "w") as f:
